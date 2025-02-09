@@ -1,0 +1,84 @@
+﻿@rendermode InteractiveServer
+<MudContainer Style="margin-top:10px; margin-bottom:10px;">
+    <MudPaper Elevation="0">
+        <MudStack>
+            <MudPaper>
+                <MudText Typo="Typo.h2" Align="Align.Center"><b>Knights Of Herman</b></MudText>
+                <MudText Typo="Typo.h3" Align="Align.Center">Sanctum TTRPG</MudText>
+            </MudPaper>
+            <MudStack Row=true Style="margin-bottom:10px;">
+                <MudItem>
+                    <MudImage Width="300" Src="images/home/character.png" />
+                </MudItem>
+                <MudItem>
+                    <MudCard Style="height:100%;">
+                        <MudCardContent>
+                            <MudText>Character Sheets</MudText>
+                            <MudText Typo="Typo.body2">
+                                The Knights Of Herman Sanctum Online Character Sheet app allows users to create users online and share them among other users with realtime editing.
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton OnClick=GoToCharactersPage Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudStack>
+            <MudStack Row=true Style="margin-bottom:10px;">
+                <MudItem>
+                    <MudCard Style="height:100%; width:100%;">
+                        <MudCardContent>
+                            <MudText>Campaigns</MudText>
+                            <MudText Typo="Typo.body2">
+                                The Knights Of Herman Sanctum Campaign app will allows users to create and manage online campaigns with the assistance of a battlemap system.
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton OnClick=GoToCampaignsPage Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <MudItem>
+                    <MudImage Width="300" Src="images/home/campaign.png" />
+                </MudItem>
+            </MudStack>
+        </MudStack>
+        <MudStack Row=true Style="margin-bottom:10px; width:100%;">
+            <MudItem>
+                <MudImage Width="300" Src="images/home/wiki.png" />
+            </MudItem>
+            <MudItem>
+                <MudCard Style="height:100%; width:100%;">
+                    <MudCardContent>
+                        <MudText>Wiki</MudText>
+                        <MudText Typo="Typo.body2">
+                            The Knights Of Herman Sanctum Wiki will be a repository of all the Sanctum rules.
+                        </MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton OnClick=GoToWikiPage Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudStack>
+    </MudPaper>
+</MudContainer>
+
+@inject NavigationManager _nav
+@code {
+
+    void GoToCharactersPage()
+    {
+        _nav.NavigateTo("/characters");
+    }
+
+    void GoToCampaignsPage()
+    {
+        _nav.NavigateTo("/campaigns");
+    }
+
+    void GoToWikiPage()
+    {
+        _nav.NavigateTo("/wiki");
+    }
+}

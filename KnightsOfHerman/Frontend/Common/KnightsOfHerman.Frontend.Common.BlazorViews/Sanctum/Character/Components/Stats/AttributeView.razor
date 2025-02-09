@@ -1,0 +1,49 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Stats
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+<MudStack Spacing="0">
+    <MudStack Row=true AlignItems="AlignItems.Center">
+        <MudContainer Class="mud-theme-primary" style="clip-path: polygon(0 0, 75% 0%, 100% 50%, 75% 100%, 0 100%, 0% 50%); width:60px;">
+            <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center">
+                <MudText Typo="Typo.h6" Align="Align.Left"><b>@Stat.Total</b></MudText>
+            </MudStack>
+        </MudContainer>
+        <MudSpacer />
+        <MudTooltip Text="Double Click To Edit">
+            <MudText ondblclick="@OnAttrDblClick" @onclick:stopPropagation=true Style="cursor:pointer; user-select:none" Typo="Typo.h6"><b>@Name</b></MudText>
+        </MudTooltip>
+    </MudStack>
+</MudStack>
+
+@inject IDialogService Dialog
+@code {
+    [Parameter]
+    public required CharacterStatCO Stat { get; set; }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    [Parameter]
+    public required string Name { get; set; }
+
+    DialogOptions _dialogOptions = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.Small,
+            CloseButton = true,
+        };
+
+    void OnAttrDblClick()
+    {
+        OpenStatDialog();
+    }
+
+    void OpenStatDialog()
+    {
+        var parameters = new DialogParameters<StatDialog>();
+        parameters.Add(x => x.StatName, Name);
+        parameters.Add(x => x.Stat, Stat);
+        parameters.Add(x => x.Model, Model);
+        Dialog.Show<StatDialog>($"Edit {Name}", parameters);
+    }
+}
+

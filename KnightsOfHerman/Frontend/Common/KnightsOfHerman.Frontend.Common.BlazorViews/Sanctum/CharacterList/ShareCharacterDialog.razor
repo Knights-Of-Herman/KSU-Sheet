@@ -1,0 +1,96 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character
+@using KnightsOfHerman.Common.Sanctum.Communication.DTO
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Interfaces
+@using KnightsOfHerman.Frontend.Common.Model.User
+
+<MudDialog Style="width:100%;">
+    <DialogContent>        
+        @if (!_loading)
+        {
+            <MudContainer Style="width:100%;" Fixed=true>
+                <MudPaper Class="pa-4" Style="margin-bottom:4px;">
+                    <MudText Typo="Typo.h6" Align="Align.Center">New Share</MudText>
+                    <MudDivider />
+                    <MudStack Row=true>
+                        <MudTextField @bind-Value=Username
+                                      Adornment="Adornment.End"
+                                      AdornmentColor="Color.Primary"
+                                      AdornmentIcon="@Icons.Material.Filled.Search"
+                                      OnAdornmentClick="SearchUser"
+                                      Error=_disableShare
+                                      ErrorText="User Not Found"
+                                      DebounceInterval="1000"
+                                      Variant="Variant.Outlined"
+                                      ShrinkLabel=false
+                                      Label="Username" />
+                        <MudSelect @bind-Value=_access Label="Access Level" Variant="Variant.Outlined">
+                            <MudSelectItem Value="CharacterAccess.Viewer">Viewer</MudSelectItem>
+                            <MudSelectItem Value="CharacterAccess.Editor">Editor</MudSelectItem>
+                        </MudSelect>
+                    </MudStack>
+                    <MudStack Row=true>
+                        <MudSpacer />
+                        <MudButton Style="margin-top:8px;" Variant=Variant.Filled Color=Color.Success FullWidth=true Disabled=_disableShare OnClick="Share">Share</MudButton>
+                        <MudSpacer />
+                    </MudStack>
+                </MudPaper>
+                <MudPaper Elevation="0" Class="pa-0" Style="margin-bottom:8px;">
+                    <MudTable T="CharacterShareDTO" @ref=@_table
+                        
+                        Dense=true
+                        Items="_permissions.Permissions"
+                        RowsPerPage="4" 
+                        Hover="true" 
+                        IsEditRowSwitchingBlocked=true
+                        CanCancelEdit=true
+                        Filter="new Func<CharacterShareDTO,bool>(FilterFunc)"
+                        RowEditPreview="BackupPerm"
+                        RowEditCommit="CommitEdit"
+                        RowEditCancel="CancelEdit">                       
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Current Shares</MudText>
+                                <MudSpacer />
+                                <MudTextField @bind-Value="_searchString" Placeholder="Search User" Adornment="Adornment.Start" Immediate=true AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh Style="width:70%">Username</MudTh>
+                                <MudTh Style="width:25%">Access Level</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd Style="width:70%" DataLabel="Username">@context.ShareUser</MudTd>
+                                <MudTd Style="width:25%" DataLabel="Access Level">@context.Access</MudTd>
+                            </RowTemplate>
+                            <RowEditingTemplate>
+                                <MudTd Style="width:60%" DataLabel="Username">@context.ShareUser</MudTd>
+                                <MudTd Style="width:25%" DataLabel="Access Level">
+                                    <MudSelect @bind-Value=@context.Access>
+                                        <MudSelectItem Value="CharacterAccess.None">
+                                            None
+                                        </MudSelectItem>
+                                        <MudSelectItem Value="CharacterAccess.Viewer">
+                                            Viewer
+                                        </MudSelectItem>
+                                        <MudSelectItem Value="CharacterAccess.Editor">
+                                            Editor
+                                        </MudSelectItem>
+                                    </MudSelect>
+                                </MudTd>
+                            </RowEditingTemplate>
+                            <PagerContent>
+                                <MudStack Row=true>
+                                    <MudSpacer />
+                                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                                    <MudSpacer />
+                                </MudStack>
+                            </PagerContent>
+                    </MudTable>
+                </MudPaper>
+            </MudContainer>
+        } else
+        {
+            <Loading/>
+        }
+    </DialogContent>
+</MudDialog>
+
+

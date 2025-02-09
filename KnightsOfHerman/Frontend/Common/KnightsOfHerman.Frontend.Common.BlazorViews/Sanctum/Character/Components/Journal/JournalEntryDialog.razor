@@ -1,0 +1,41 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField Disabled=Model.IsReadOnly @bind-Value=Journal.Title MaxLength="100" Counter=100 Label="Title">
+
+        </MudTextField>
+        <MudDivider/>
+        <MudTextField Disabled=Model.IsReadOnly Lines="10" MaxLength="4000" Counter="4000" @bind-Value=Journal.Content>
+
+        </MudTextField>
+        <MudStack Row=true>
+            <MudTextField ReadOnly=true Value=Journal.Category/>
+            <MudSpacer/>
+            <MudTextField ReadOnly=true Value="@Date"/>
+            <MudIconButton Disabled=Model.IsReadOnly Icon="@Icons.Material.Filled.Delete" OnClick="Delete"></MudIconButton>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    public string Date => Journal.CreateDate.ToString("MM/dd/yyyy");
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    [Parameter]
+    public required CharacterJournalCO Journal { get; set; }
+
+    void Delete()
+    {
+        Model.Character.Journal.Remove(Journal.JournalID);
+        Dialog.Close();
+    }
+}

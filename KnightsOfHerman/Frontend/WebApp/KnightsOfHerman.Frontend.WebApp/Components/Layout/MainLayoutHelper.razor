@@ -1,0 +1,28 @@
+﻿@using KnightsOfHerman.Frontend.Common.BlazorViews.Services
+@inject AuthenticationStateProvider _auth
+
+<div class="page">
+    <main>
+        <NavMenu />
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Body { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            if (_auth is UserStateProvider auth)
+            {
+                await auth.LoadAuthStateAsync();
+            }
+        }
+    }
+}

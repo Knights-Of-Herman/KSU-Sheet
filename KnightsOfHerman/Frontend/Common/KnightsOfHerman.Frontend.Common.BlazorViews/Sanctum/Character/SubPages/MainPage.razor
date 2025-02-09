@@ -1,0 +1,28 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Stats
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Sanctum.Character.Components.Stats
+
+
+<MudContainer>
+    <MudItem Style="display: flex; flex-direction: column; height: 100%;">
+        <MudStack Row=true>
+            <MudItem>
+                <MudPaper Width="300px" Style="overflow-y:auto; object-fit:fill;">
+                    <StatsListView Character="Character" />
+                </MudPaper>
+            </MudItem>
+            <MudItem>
+                <MudPaper>
+                    BIO STUFF
+                </MudPaper>
+            </MudItem>
+        </MudStack>
+    </MudItem>
+</MudContainer>
+
+<style>
+    .statlist{
+
+    }
+</style>
+
+

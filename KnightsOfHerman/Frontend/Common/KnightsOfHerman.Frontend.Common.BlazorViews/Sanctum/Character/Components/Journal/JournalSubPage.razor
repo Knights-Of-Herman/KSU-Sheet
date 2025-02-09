@@ -1,0 +1,64 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Notes
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Medium" Style="height:100%;">
+    <MudPaper Height="100%">
+        <MudStack Style="height:10%;" Row=true>
+            <MudSelect Disabled=Model.IsReadOnly Variant=Variant.Outlined Label="Category" @bind-Value=_category>
+                <MudSelectItem Value="JournalCategory.General">
+                    General
+                </MudSelectItem>
+                <MudSelectItem Value="JournalCategory.Location">
+                    Location
+                </MudSelectItem>
+                <MudSelectItem Value="JournalCategory.Person">
+                    Person
+                </MudSelectItem>
+                <MudSelectItem Value="JournalCategory.Quest">
+                    Quest
+                </MudSelectItem>
+                <MudSelectItem Value="JournalCategory.Backstory">
+                    Backstory
+                </MudSelectItem>
+            </MudSelect>
+            <MudSelect Variant=Variant.Outlined Label="Sort By" @bind-Value=_sort>
+                <MudSelectItem Value="JournalSortBy.Latest">
+                    Latest
+                </MudSelectItem>
+                <MudSelectItem Value="JournalSortBy.Oldest">
+                    Oldest
+                </MudSelectItem>
+            </MudSelect>
+            <MudTextField @bind-Value=_search Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick=Search AdornmentColor=Color.Primary Label="Search" Variant="Variant.Outlined" />
+            <MudIconButton Disabled=Model.IsReadOnly Icon="@Icons.Material.Filled.Add" OnClick="AddJournal" />
+        </MudStack>
+        <MudPaper Elevation="0" Class="pa-2" Style="height:90%;">
+            <MudStack Style="height:100%">
+                <MudList Style="height:90%; overflow-y:scroll;">
+                    @foreach (var jnrl in PaginatedJournals)
+                    {
+                        <MudPaper Class="ma-2">
+                            <MudStack Row=true>
+                                <MudText Typo="Typo.h6"><b>@jnrl.Title</b></MudText>
+                                <MudSpacer/>
+                                <MudStack>
+                                    <MudText>@jnrl.CreateDate.ToString("MM/dd/yyyy")</MudText>
+                                    <MudText>@jnrl.Category.ToString()</MudText>
+                                </MudStack>
+                                <MudIconButton Icon="@Icons.Material.Filled.Info" OnClick="()=>OpenJournal(jnrl)"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                    }
+                </MudList>
+                <MudSpacer/>
+                <div class="d-flex flex-column align-center" style="height:10%;">
+                    <MudPagination @ref=_pager ShowFirstButton=true ShowLastButton=true Count="@TotalPages"
+                                   @bind-Selected=CurrentPage />
+                </div>
+            </MudStack>
+        </MudPaper>
+    </MudPaper>
+</MudContainer>
+
+
+

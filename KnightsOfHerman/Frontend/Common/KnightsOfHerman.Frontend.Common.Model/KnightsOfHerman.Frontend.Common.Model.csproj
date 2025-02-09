@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Communication\API\**" />
+    <Compile Remove="Sanctum\Types\**" />
+    <EmbeddedResource Remove="Communication\API\**" />
+    <EmbeddedResource Remove="Sanctum\Types\**" />
+    <None Remove="Communication\API\**" />
+    <None Remove="Sanctum\Types\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\KnightsOfHerman.Common\KnightsOfHerman.Common.csproj" />
+    <ProjectReference Include="..\..\..\Common\Sanctum\KnightsOfHerman.Common.Sanctum\KnightsOfHerman.Common.Sanctum.csproj" />
+  </ItemGroup>
+
+</Project>

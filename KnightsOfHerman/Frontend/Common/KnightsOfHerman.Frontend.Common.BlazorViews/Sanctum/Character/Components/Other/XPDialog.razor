@@ -1,0 +1,19 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+<MudDialog>
+    <DialogContent>
+        <MudStack Row=true>
+            <MudNumericField Disabled=Model.IsReadOnly @bind-Value=Character.Bio.UnspentXP Label="Unspent XP" Min="0" />
+            <MudNumericField Disabled=Model.IsReadOnly @bind-Value=Character.Bio.TotalXP Label="Total XP" Min="0" />
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    CharacterCO Character => Model.Character;
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+}

@@ -1,0 +1,51 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Abilities
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Medium" Style="height:100%;">
+    <MudPaper Height="100%">
+        <MudStack Style="height:10%;" Row=true>
+            <MudSelect Variant=Variant.Outlined Label="Ability Type" @bind-Value=_type>
+                <MudSelectItem Value="AbilityType.Spell">
+                    Spell
+                </MudSelectItem>
+                <MudSelectItem Value="AbilityType.WeaponArt">
+                    Weapon Art
+                </MudSelectItem>
+                <MudSelectItem Value="AbilityType.Miracle">
+                    Miracle
+                </MudSelectItem>
+                <MudSelectItem Value="AbilityType.Talent">
+                    Talent
+                </MudSelectItem>
+                <MudSelectItem Value="AbilityType.Other">
+                    Other
+                </MudSelectItem>
+            </MudSelect>
+            <MudTextField @bind-Value=_search Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick=Search AdornmentColor=Color.Primary Label="Search" Variant="Variant.Outlined" />
+            <MudIconButton Disabled=Model.IsReadOnly Icon="@Icons.Material.Filled.Add" OnClick="AddAbility" />
+        </MudStack>
+        <MudPaper Elevation="0" Class="pa-2" Style="height:90%;">
+            <MudStack Style="height:100%">
+                <MudList Style="height:90%; overflow-y:scroll;">
+                    @foreach (var ability in PaginatedAbilities)
+                    {
+                        <MudPaper Class="ma-2">
+                            <MudStack Row=true>
+                                <MudText Typo="Typo.h6"><b>@ability.Title</b></MudText>
+                                <MudSpacer />
+                                <MudSwitch Disabled=Model.IsReadOnly @bind-Value=ability.Memorized Label="Memorized?" />
+                                <MudText>@ability.AbilityType.ToString()</MudText>
+                                <MudIconButton Icon="@Icons.Material.Filled.Info" OnClick="()=>OpenAbility(ability)"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                    }
+                </MudList>
+                <MudSpacer />
+                <div class="d-flex flex-column align-center" style="height:10%;">
+                    <MudPagination @ref=_pager ShowFirstButton=true ShowLastButton=true Count="@TotalPages"
+                                   @bind-Selected=CurrentPage />
+                </div>
+            </MudStack>
+        </MudPaper>
+    </MudPaper>
+</MudContainer>

@@ -1,0 +1,79 @@
+﻿@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+<AuthorizeView>
+    <NotAuthorized>
+        <MudContainer Class="register-container" MaxWidth="MaxWidth.Small">
+            <MudPaper Class="pa-4">
+                <MudForm @ref=_form @bind-IsValid="@success" @bind-Errors="@errors" @onsubmit=TryRegisterAsync>
+                    <MudText Align="Align.Center" Typo="Typo.h6">
+                        Register
+                    </MudText>
+                    <MudFocusTrap>
+                        <MudTextField @bind-Value=_username
+                                      Required=true
+                                      RequiredError="Username Required"
+                                      Label="Username"
+                                      Placeholder="Adventurer"
+                                      Validation="ValidateUsernameAsync" />
+                        <MudTextField @bind-Value=_email
+                                      Required=true
+                                      RequiredError="Email Required"
+                                      Label="Email"
+                                      Placeholder="adventurer@knightsofherman.com"
+                                      Validation="ValidateEmailAsync" />
+                        <MudTextField @bind-Value=_password
+                                      Required=true
+                                      RequiredError="Password Required"
+                                      Label="Password"
+                                      Placeholder="Password"
+                                      InputType=InputType.Password
+                                      Validation="new Func<string, IEnumerable<string>>(ValidatePassword)" />
+                        <MudTextField @bind-Value=_passwordConfirm
+                                      Label="Confirm Password"
+                                      Placeholder="Password"
+                                      Validation="new Func<string,string>(ValidateMatch)"
+                                      InputType=InputType.Password />
+                        <MudStack Row=true>
+                            <MudSpacer />
+                            <MudButton ButtonType=ButtonType.Submit Size=Size.Medium Style="margin-top:8px;" Variant=Variant.Outlined Color="Color.Primary" Disabled=!success OnClick="TryRegisterAsync">Register</MudButton>
+                            <MudSpacer />
+                        </MudStack>
+                    </MudFocusTrap>
+                  
+                    @if (_alertShow)
+                    {
+                        <MudAlert Severity="Severity.Error" ShowCloseIcon=true CloseIconClicked="CloseAlert">@_alertText</MudAlert>
+                    }
+
+                </MudForm>
+            </MudPaper>
+            <MudStack Row=true>
+                <MudSpacer />
+                <NavLink class="login-link" @onclick="GoToLogin">Already have an account? Login Here</NavLink>
+                <MudSpacer />
+            </MudStack>
+        </MudContainer>
+    </NotAuthorized>
+    <Authorized>
+        <MudContainer Class="register-container" MaxWidth="MaxWidth.Small">
+            <MudPaper>
+                <MudText>You are already logged in.</MudText>
+                <MudButton OnClick="()=>User.TryLogoutAsync()">Logout</MudButton>
+            </MudPaper>
+        </MudContainer>
+    </Authorized>
+</AuthorizeView>
+
+<style>
+    .register-container{
+        margin-top:20px;
+    }
+    .login-link{
+        margin-top:4px;
+    }
+    .login-link:hover {
+        cursor:pointer;
+    }
+</style>
+
+

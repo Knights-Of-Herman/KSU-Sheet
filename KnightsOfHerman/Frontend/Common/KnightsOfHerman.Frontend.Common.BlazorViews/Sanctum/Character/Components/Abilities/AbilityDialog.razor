@@ -1,0 +1,36 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField Disabled=Model.IsReadOnly @bind-Value=Ability.Title MaxLength="100" Counter=100 Label="Title" />
+        <MudDivider />
+        <MudTextField Disabled=Model.IsReadOnly Lines="10" MaxLength="4000" Counter="4000" @bind-Value=Ability.Content/>
+        <MudTextField Disabled=Model.IsReadOnly @bind-Value=Ability.Cost MaxLength="100" Counter="100" Label="Cost" />
+        <MudStack Row=true>
+            <MudTextField ReadOnly=true Value=Ability.AbilityType/>
+            <MudCheckBox Disabled=Model.IsReadOnly @bind-Value=Ability.Memorized Label="Memorized?" />
+            <MudSpacer />
+            <MudIconButton Disabled=Model.IsReadOnly Icon="@Icons.Material.Filled.Delete" OnClick="Delete"></MudIconButton>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    [Parameter]
+    public required CharacterAbilityCO Ability { get; set; }
+
+    void Delete()
+    {
+        Model.Character.Abilities.Remove(Ability.AbilityID);
+        Dialog.Close();
+    }
+}

@@ -1,0 +1,184 @@
+﻿@using KnightsOfHerman.Frontend.Common.BlazorViews
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Services
+@using KnightsOfHerman.Frontend.Common.Model.User
+@rendermode InteractiveServer
+@inject IUserController _account
+@inject NavigationManager _nav
+@inject AuthenticationStateProvider Auth
+
+<MudThemeProvider IsDarkMode=IsDark />
+<MudDialogProvider CloseOnEscapeKey="true"/>
+<MudSnackbarProvider />
+
+
+<!--Big Screen-->
+<MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+	<MudAppBar Fixed=true Style="margin-bottom:16px;">
+		<MudContainer>
+			<MudStack Row=true>
+
+				<!--Main Header and Nav-->
+				<MudStack Spacing="0">
+					<MudText @onclick=GoToHome Typo="Typo.h5" Class="clickable"><b>Knights Of Herman</b></MudText>
+					<MudStack Row=true>
+						<NavLink @onclick=GoToCharactersPage class="clickable">Characters</NavLink>
+						<MudIcon Icon="@KOHIcons.D20" Color="Color.Warning" Size="Size.Small" />
+						<NavLink @onclick=GoToCampaignsPage class="clickable">Campaigns</NavLink>
+						<MudIcon Icon="@KOHIcons.D20" Color="Color.Warning" Size="Size.Small" />
+						<NavLink @onclick=GoToWikiPage class="clickable">Wiki</NavLink>
+					</MudStack>
+				</MudStack>
+
+
+
+				<MudSpacer />
+				<MudIconButton Icon="@ToggleDarkIcon" @onclick=ToggleDark></MudIconButton>
+				<span>
+					<AuthorizeView>
+						<Authorized>
+							<MudStack Row=true Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="0">
+								<MudText>
+									@context.User.FindFirst("username")?.Value
+								</MudText>
+								<MudMenu Icon="@Icons.Material.Filled.AccountCircle">
+									<MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="_account.TryLogoutAsync">Logout</MudMenuItem>
+									<MudMenuItem Icon="@Icons.Material.Filled.ManageAccounts">Account</MudMenuItem>
+								</MudMenu>
+							</MudStack>
+						</Authorized>
+						<NotAuthorized>
+							<MudTooltip Text="Login">
+								<MudIconButton Icon="@Icons.Material.Filled.Login" OnClick="GoToLoginPage">
+								</MudIconButton>
+							</MudTooltip>
+						</NotAuthorized>
+					</AuthorizeView>
+				</span>
+			</MudStack>	
+		</MudContainer>
+		
+	</MudAppBar>
+</MudHidden>
+
+<!--Small Screen-->
+<MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Variant="@DrawerVariant.Temporary">
+	<MudAppBar Fixed=false>
+		<MudIconButton Icon="@Icons.Material.Filled.Menu" @onclick=SmToggleNavDrawer/>
+		<MudText Typo="Typo.h5" Style="margin-right:8px;">KOH Sanctum</MudText>
+		<MudSpacer/>
+		<AuthorizeView>
+			<Authorized>
+				<MudMenu Label="@context.User.FindFirst("username")?.Value" Icon="@Icons.Material.Filled.Person">
+					<MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="_account.TryLogoutAsync">Logout</MudMenuItem>
+					<MudMenuItem Icon="@Icons.Material.Filled.Info">Account</MudMenuItem>
+				</MudMenu>
+			</Authorized>
+			<NotAuthorized>
+				<MudTooltip Text="Login"> 
+					<MudIconButton Icon="@Icons.Material.Filled.Login" OnClick="GoToLoginPage" />
+				</MudTooltip>
+			</NotAuthorized>
+		</AuthorizeView>
+	</MudAppBar>	
+</MudHidden>
+
+<MudDrawer @bind-Open="@_smNavDrawerOpen" Elevation="1" Fixed=true Style="position:fixed;">
+	<MudNavMenu>
+		<MudNavLink @onclick=GoToHome>Home</MudNavLink>
+		<MudNavLink @onclick=GoToCharactersPage>Characters</MudNavLink>
+		<MudNavLink @onclick=GoToCampaignsPage>Campaign</MudNavLink>
+		<MudNavLink @onclick=GoToWikiPage>Wiki</MudNavLink>
+		<MudSpacer/>
+		<MudIconButton Icon="@ToggleDarkIcon" @onclick=ToggleDark></MudIconButton>
+	</MudNavMenu>
+	
+</MudDrawer>
+
+<style>
+	.clickable:hover
+	{
+		cursor:pointer;
+	}
+</style>
+
+@code{
+
+	public bool IsDark = true;
+
+	void ToggleDark()
+	{
+		IsDark = !IsDark;
+		StateHasChanged();
+	}
+
+	string ToggleDarkIcon {get
+		{
+			if (IsDark) return Icons.Material.Filled.DarkMode;
+			return Icons.Material.Filled.LightMode;
+		}
+	}
+
+	string username = String.Empty;
+	string token = String.Empty;
+
+	bool _smNavDrawerOpen;
+
+	bool _smUserDrawerOpen;
+
+	bool _UserDrawerOpen;
+
+	void SmToggleNavDrawer()
+	{
+		_smNavDrawerOpen = !_smNavDrawerOpen;
+	}
+
+	void SmToggleUserDrawer()
+	{
+		_smUserDrawerOpen = !_smUserDrawerOpen;
+	}
+
+	void ToggleUserDrawer()
+	{
+		_UserDrawerOpen = !_UserDrawerOpen;
+	}
+
+	void GoToLoginPage()
+	{
+		var returnURL = _nav.ToBaseRelativePath(_nav.Uri);
+
+		_nav.NavigateTo($"/account/login?returnUrl={Uri.EscapeDataString(returnURL)}");		
+	}
+
+	void GoToHome()
+	{
+		_nav.NavigateTo("");
+	}
+
+	void GoToCharactersPage()
+	{
+		_nav.NavigateTo("/characters");
+	}
+
+	void GoToCampaignsPage()
+	{
+		_nav.NavigateTo("/campaigns");
+	}
+
+	void GoToWikiPage()
+	{
+		_nav.NavigateTo("/wiki");
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await _account.LoadUserAsync();
+			var auth = Auth as UserStateProvider;
+			await auth.LoadAuthStateAsync();
+			StateHasChanged();
+
+		}
+		await base.OnAfterRenderAsync(firstRender);	
+	}
+}

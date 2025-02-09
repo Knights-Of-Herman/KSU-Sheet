@@ -1,0 +1,68 @@
+﻿@using KnightsOfHerman.Common.User
+@using KnightsOfHerman.Frontend.Common.Model.User
+@rendermode InteractiveServer
+@inject IUserController _account;
+
+<AuthorizeView>
+    <NotAuthorized>
+        <MudContainer Class="login-container" MaxWidth="MaxWidth.Small">
+            <MudPaper Class="pa-4">
+                <MudText Align="Align.Center" Typo="Typo.h6">
+                    Login
+                </MudText>
+                <MudFocusTrap>
+                    <form @onsubmit=TryLoginAsync>
+                        <MudTextField Immediate=true @bind-Value=Email Label="Email" Placeholder="adventurer@knightsofherman.com" @onchange="StateHasChanged"></MudTextField>
+                        <MudTextField Immediate=true @bind-Value=Password Label="Password" Placeholder="Password" InputType=InputType.Password @onchange="StateHasChanged"> </MudTextField>
+                        <MudStack Row=true>
+                            <MudSpacer />
+                            <MudButton ButtonType=ButtonType.Submit Style="margin-top:8px;" Variant=Variant.Outlined Color="Color.Primary" Disabled=@_disableLogin OnClick="TryLoginAsync">
+                                @if (_checking)
+                                {
+                                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                                    <MudText>Processing</MudText>
+                                } else
+                                {
+                                    <MudText>Login</MudText>
+                                }
+                            </MudButton>
+                            <MudSpacer />
+                        </MudStack>
+                    </form>
+                </MudFocusTrap>
+                
+                @if (_showAlert)
+                {
+                    <MudAlert Severity="Severity.Error" ShowCloseIcon=true CloseIconClicked="()=>_showAlert = false">Invalid Credentials</MudAlert>
+                }
+            </MudPaper>
+            <MudStack Row=true>
+                <MudSpacer />
+                <NavLink class="register-link" @onclick="GoToRegister">Don't have an account? Register Here</NavLink>
+                <MudSpacer />
+            </MudStack>
+        </MudContainer>
+    </NotAuthorized>
+    <Authorized>
+        <MudContainer MaxWidth="MaxWidth.Small">
+            <MudPaper>
+                <MudText>You are already logged in.</MudText>
+                <MudButton OnClick="Logout">Logout</MudButton>
+            </MudPaper>
+        </MudContainer>
+    </Authorized>
+</AuthorizeView>
+
+<style>
+    .login-container {
+        margin-top: 20px;
+    }
+
+    .register-link {
+        margin-top: 4px;
+    }
+
+    .register-link:hover {
+        cursor: pointer;
+    }
+</style>

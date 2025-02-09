@@ -1,0 +1,52 @@
+﻿@page "/account/login"
+@page "/login"
+@using KnightsOfHerman.Common.User
+@using KnightsOfHerman.Frontend.Common.Model.User
+@using Microsoft.AspNetCore.WebUtilities
+@rendermode InteractiveServer
+@inject NavigationManager _nav;
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Account;
+
+<LoginView GoToPreviousPage="GoToPrevious" GoToRegister="GoToRegister" Refresh="Refresh"/>
+
+@code {
+
+
+    string _returnUrl = "/";
+
+    protected override void OnInitialized()
+    {
+        var url = _nav.ToAbsoluteUri(_nav.Uri);
+        if (QueryHelpers.ParseQuery(url.Query).TryGetValue("returnUrl", out var tempURL))
+        {
+            _returnUrl = tempURL;
+        } else
+        {
+            _returnUrl = "/";
+        }
+    }
+
+    void Refresh()
+    {
+        _nav.Refresh();
+    }
+
+    void GoToPrevious()
+    {
+        //Redirect
+        if (!String.IsNullOrWhiteSpace(_returnUrl))
+        {
+            //eventuall check if its a valid local url
+            _nav.NavigateTo(_returnUrl);
+        }
+        else
+        {
+            _nav.NavigateTo("/");
+        }
+    }
+
+    void GoToRegister()
+    {
+        _nav.NavigateTo($"/account/register?returnUrl={Uri.EscapeDataString(_returnUrl)}");
+    }
+}

@@ -1,0 +1,80 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+<MudContainer Style="height:100%;" MaxWidth="MaxWidth.Medium">
+    <MudPaper Height="100%">
+        <MudStack Row=true>
+            <MudSpacer />
+            <MudText Align="Align.Center" Typo="Typo.h5">Weapons</MudText>
+            <MudSpacer />
+            <MudTooltip Text="Add New Weapon">
+                <MudButton Disabled=Model.IsReadOnly OnClick="NewItem">+</MudButton>
+            </MudTooltip>
+        </MudStack>
+        <MudDivider />
+        <MudPaper Elevation="0" Class="pa-2" Style="height:calc(100% - 42px);">
+            <MudStack Style="height:100%;">
+                <MudList Style="height:90%; overflow-y:auto;">
+                    @foreach (var item in PaginatedItems)
+                    {
+                        <MudPaper Class="ma-2">
+                            <MudExpansionPanel Dense=true DisableGutters=true>
+                                <TitleContent>
+                                    <MudStack Row=true>
+                                        <MudTextField Disabled=Model.IsReadOnly FullWidth=true Variant="Variant.Outlined" MaxLength=55 Counter="55" @bind-Value=item.Name Label="Weapon Name" />
+                                        <MudNumericField Disabled=Model.IsReadOnly FullWidth=false Style="max-width:120px;" Variant="Variant.Outlined" MaxLength="4" @bind-Value=item.Weight Label="Weight" />
+                                        <MudNumericField Disabled=Model.IsReadOnly FullWidth=false Style="max-width:120px;" Variant="Variant.Outlined" MaxLength="4" @bind-Value=item.Quantity Label="Quantity" />
+                                        <MudMenu Icon="@Icons.Material.Filled.Delete" Color="Color.Error">
+                                            <MudMenuItem Icon="@Icons.Material.Filled.Cancel">Cancel</MudMenuItem>
+                                            <MudMenuItem Disabled=Model.IsReadOnly Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="()=>DeleteItem(item)">Delete</MudMenuItem>
+                                        </MudMenu>
+                                    </MudStack>
+                                    <MudStack Row=true>
+                                        <MudTextField Disabled=Model.IsReadOnly FullWidth=true Variant="Variant.Outlined" Label="Damage" @bind-Value=item.Damage MaxLength=55 Counter="55" />
+                                        <MudNumericField Disabled=Model.IsReadOnly FullWidth=false Style="max-width:100px;" Variant="Variant.Outlined" MaxLength="4" @bind-Value=item.Accuracy Label="Accuracy" />
+                                    </MudStack>
+                                </TitleContent>
+                                <ChildContent>
+                                    <div class="pa-4">
+                                        <MudTextField Disabled=Model.IsReadOnly Label="Description" Variant="Variant.Outlined" @bind-Value=item.Description Lines="3" AutoGrow=true MaxLength="256" Counter="256" />
+                                    </div>
+                                </ChildContent>
+                            </MudExpansionPanel>
+                        </MudPaper>
+                    }
+                </MudList>
+                <MudSpacer />
+                <div class="d-flex flex-column align-center" style="height:10%;">
+                    <MudPagination @ref=_pager ShowFirstButton=true ShowLastButton=true Count="@TotalPages"
+                                   @bind-Selected=CurrentPage />
+                </div>
+            </MudStack>
+        </MudPaper>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private int CurrentPage = 1;
+    private int PageSize = 10;
+    private int TotalItems => Model.Character.Weapons.Count;
+    private int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
+    IEnumerable<CharacterWeaponCO> PaginatedItems => Model.Character.Weapons.Values.Skip((CurrentPage - 1) * PageSize).Take(PageSize);
+
+    MudPagination _pager;
+
+    private void OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        StateHasChanged();
+    }
+
+    async void NewItem()
+    {
+        await Model.CreateWeapon();
+        _pager.NavigateTo(TotalPages); //Navigate to end
+    }
+
+    async void DeleteItem(CharacterWeaponCO item)
+    {
+        Model.Character.Weapons.Remove(item.ItemID);
+        StateHasChanged();
+    }
+}

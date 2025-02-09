@@ -1,0 +1,55 @@
+﻿@page "/characters"
+@rendermode InteractiveServer
+@inject NavigationManager _nav
+@inject AuthenticationStateProvider Auth
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Sanctum.CharacterList
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Services
+
+
+@if (!_loading)
+{
+    <AuthorizeView>
+        <Authorized>
+            <CharacterListView GoToCharacter="GoToCharacterPage" />
+        </Authorized>
+        <NotAuthorized>
+            <KnightsOfHerman.Frontend.Common.BlazorViews.Account.LoginView GoToRegister="GoToRegister" GoToPreviousPage="GoToPrevious"/>
+        </NotAuthorized>
+    </AuthorizeView>
+} else
+{
+    <KnightsOfHerman.Frontend.Common.BlazorViews.Loading/>
+}
+
+
+
+@code{
+    bool _loading = true;
+
+    void GoToRegister()
+    {
+        _nav.NavigateTo($"/account/register?returnUrl={Uri.EscapeDataString("characters")}");
+    }
+
+    void GoToPrevious()
+    {
+
+    }
+    void GoToCharacterPage(int id)
+    {
+        var idString = id.ToString();
+        _nav.NavigateTo($"/character?id={Uri.EscapeDataString(idString)}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            var auth = Auth as UserStateProvider;
+            await auth.LoadAuthStateAsync();
+            _loading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

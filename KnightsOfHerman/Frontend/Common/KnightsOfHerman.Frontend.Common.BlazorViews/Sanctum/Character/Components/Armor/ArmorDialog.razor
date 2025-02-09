@@ -1,0 +1,91 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Items
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value=Armor.Name Label="Name" MaxLength="50" Counter="50" DebounceInterval="500" />
+        <MudTextField Variant="Variant.Outlined" DebounceInterval="500"  @bind-Value=Armor.Description Label="Description" MaxLength="500" Lines="5" Counter="500" />
+        <MudStack Row=true>
+            <MudNumericField Disabled=Model.IsReadOnly DebounceInterval="500" @bind-Value=Armor.Weight Label="Weight" />
+            <MudNumericField Disabled=Model.IsReadOnly DebounceInterval="500" @bind-Value=Armor.Hindrance Label="Hindrance" />
+        </MudStack>
+        <MudStack Row=true>
+            <MudNumericField Disabled=Model.IsReadOnly DebounceInterval="500" @bind-Value=Armor.Bludgeoning Label="Bludgeoning" />
+            <MudNumericField Disabled=Model.IsReadOnly DebounceInterval="500" @bind-Value=Armor.Piercing Label="Piercing" />
+            <MudNumericField Disabled=Model.IsReadOnly DebounceInterval="500" @bind-Value=Armor.Slashing Label="Slashing" />
+        </MudStack>
+        <MudSelect Label="Armor Slot(s)" @bind-SelectedValues=Slots MultiSelection=true Disabled=SelectDisable>
+            @foreach (var value in Enum.GetValues<ArmorSlot>())
+            {
+                <MudSelectItem Value="value">@value.ToString()</MudSelectItem>
+            }
+        </MudSelect>
+        <MudSelect @bind-Value=Armor.Layer Label="Armor Layer" Disabled=SelectDisable>
+            <MudSelectItem Value="ArmorLayer.Light">Light</MudSelectItem>
+            <MudSelectItem Value="ArmorLayer.Medium">Medium</MudSelectItem>
+            <MudSelectItem Value="ArmorLayer.Heavy">Heavy</MudSelectItem>
+        </MudSelect>
+
+        <MudIconButton OnClick="Delete">Delete</MudIconButton>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterCO Character => Model.Character;
+
+    bool SelectDisable => Model.IsReadOnly || Armor.Equipped;  
+
+    CharacterArmorCO _armor;
+    [Parameter]
+    public required CharacterArmorCO Armor
+    {
+        get => _armor;
+        set
+        {
+            _armor = value;
+            Armor.OnTrackedModification += (x, y) => InvokeAsync(StateHasChanged);
+
+        }
+    }
+
+    void Delete()
+    {
+        Character.EquipedArmor.UnEquipArmor(Armor);
+        Character.Armor.Remove(Armor.ItemID);
+        Dialog.Close();
+    }
+
+    IEnumerable<ArmorSlot> _slots = new HashSet<ArmorSlot>();
+    //If armor is equipped diable the slot editing.
+    protected override void OnParametersSet()
+    {
+        _slots = Enum.GetValues<ArmorSlot>()
+        .Where(slot => Armor.Slot.HasFlag(slot))
+        .ToHashSet();  
+    }
+
+    public IEnumerable<ArmorSlot> Slots 
+    { 
+        get => _slots; 
+        set 
+        {
+            if(value.Count() > 0)
+            {
+                _slots = value;
+                ArmorSlot newSlot = _slots.First();
+                foreach (var slot in _slots)
+                {
+                    newSlot = newSlot | slot;
+                }
+                Armor.Slot = newSlot;
+            }
+        }
+    }
+}

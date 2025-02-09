@@ -1,0 +1,70 @@
+﻿@page "/character"
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Services
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager _nav;
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Sanctum.Character
+
+@rendermode InteractiveServer
+
+@if(!_loading)
+{
+    <AuthorizeView>
+        <Authorized>
+            <CharacterView CharacterID="ID" GoToCharactersList="GoToCharacters" GoToError="OnError"/>
+        </Authorized>
+        <NotAuthorized>
+            <KnightsOfHerman.Frontend.WebApp.Components.Account.LoginPage />
+        </NotAuthorized>
+    </AuthorizeView>
+} else
+{
+    <KnightsOfHerman.Frontend.Common.BlazorViews.Loading/>
+}
+
+@inject AuthenticationStateProvider Auth
+@code {
+    int ID = -1;
+    bool _loading = true;
+    protected override void OnInitialized()
+    {
+        var url = _nav.ToAbsoluteUri(_nav.Uri);
+        if (QueryHelpers.ParseQuery(url.Query).TryGetValue("id", out var rawID))
+        {
+            if (int.TryParse(rawID, out var tempID))
+            {
+                ID = tempID;
+            }
+            else
+            {
+                OnError();
+            }
+        }
+        else
+        {
+            OnError();
+        }
+    }
+
+    void OnError()
+    {
+        _nav.NavigateTo("404");
+    }
+
+    void GoToCharacters()
+    {
+        _nav.NavigateTo("/characters");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var auth = Auth as UserStateProvider;
+            await auth.LoadAuthStateAsync();
+            _loading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
+
+

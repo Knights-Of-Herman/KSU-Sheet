@@ -1,0 +1,45 @@
+﻿@page "/account/register"
+@using Microsoft.AspNetCore.WebUtilities
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Account
+@rendermode InteractiveServer
+@inject NavigationManager _nav
+
+<RegisterView GoToLogin="GoToLogin" GoToPrevious="GoToPrevious" Refresh="Refresh"/>
+
+@code{
+    string? _returnUrl;
+
+    protected override void OnInitialized()
+    {
+        var url = _nav.ToAbsoluteUri(_nav.Uri);
+        if (QueryHelpers.ParseQuery(url.Query).TryGetValue("returnUrl", out var tempURL))
+        {
+            _returnUrl = tempURL;
+        }
+    }
+
+    void GoToPrevious()
+    {
+        if (!String.IsNullOrWhiteSpace(_returnUrl))
+        {
+            //eventuall check if its a valid local url
+            _nav.NavigateTo(_returnUrl);
+        }
+        else
+        {
+            _nav.NavigateTo("/");
+        }
+    }
+
+    void GoToLogin()
+    {
+        _nav.NavigateTo("/account/login");
+    }
+
+    void Refresh()
+    {
+        _nav.Refresh();
+    }
+}
+
+

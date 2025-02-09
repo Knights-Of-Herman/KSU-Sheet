@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="PeanutButter.RandomGenerators" Version="3.0.293" />
+    <PackageReference Include="Tynamix.ObjectFiller" Version="1.5.8" />
+    <PackageReference Include="xunit" Version="2.7.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\Database\KnightsOfHerman.Backend.Database.Azure\KnightsOfHerman.Backend.Database.Azure.csproj" />
+    <ProjectReference Include="..\..\Backend\KnightsOfHerman.Backend.Common\KnightsOfHerman.Backend.Common.csproj" />
+    <ProjectReference Include="..\..\Backend\Server\KnightsOfHerman.Backend.Server\KnightsOfHerman.Backend.Server.csproj" />
+    <ProjectReference Include="..\..\Common\KnightsOfHerman.Common\KnightsOfHerman.Common.csproj" />
+    <ProjectReference Include="..\..\Common\Sanctum\KnightsOfHerman.Common.Sanctum\KnightsOfHerman.Common.Sanctum.csproj" />
+    <ProjectReference Include="..\..\Frontend\Common\KnightsOfHerman.Frontend.Common.Model\KnightsOfHerman.Frontend.Common.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

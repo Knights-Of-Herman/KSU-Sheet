@@ -1,0 +1,36 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudDialog>
+    <DialogContent>
+        <MudNumericField Disabled=Model.IsReadOnly Label="Attribute" @bind-Value=Resource.Attribute />
+        <MudNumericField Disabled=Model.IsReadOnly Label="Modifier" @bind-Value=Resource.Modifier />
+        <MudNumericField Disabled=Model.IsReadOnly Label="Override" @bind-Value=Resource.OverrideMaxValue />
+        <MudNumericField Disabled=Model.IsReadOnly Label="Current" @bind-Value=Resource.CurrentValue />
+        <MudCheckBox Disabled=Model.IsReadOnly Label="Do Override?" @bind-Value=Resource.DoOverrideMax />
+        <MudTextField Label="Total" ReadOnly=true Value="@Resource.Total" />
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public MudDialogInstance Dialog { get; set; }
+
+    [Parameter]
+    public required string StatName { get; set; }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterResourceCO _resource;
+    [Parameter]
+    public required CharacterResourceCO Resource
+    {
+        get => _resource;
+        set
+        {
+            _resource = value;
+            Resource.OnTrackedModification += (x, y) => InvokeAsync(StateHasChanged);
+        }
+    }
+}

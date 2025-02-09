@@ -1,0 +1,270 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Stats
+
+<MudList DisableGutters=true DisablePadding=true Dense=true Style="height:100%; overflow-y:auto">
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Intelligence]" Name="Intelligence" Model="Model"/>
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Perception]" Name="Perception" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Investigation]" Name="Investigation" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Tactics]" Name="Tactics" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Education]" Name="Education" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Economics]" Name="Economics" Model="Model"/>
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Lore]" Name="Lore" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Formality]" Name="Formality" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Streetwise]" Name="Streetwise" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Teaching]" Name="Teaching" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Survival]" Name="Survival" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Magic]" Name="Magic" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Terrathurgy]" Name="Terrathurgy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Aerothurgy]" Name="Aerothurgy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Pyromancy]" Name="Pyromancy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Hydromancy]" Name="Hydromancy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Necromancy]" Name="Necromancy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Mysticism]" Name="Mysticism" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Agrokenesis]" Name="Agrokenesis" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Transmutation]" Name="Transmutation" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Charisma]" Name="Charisma" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Persuassion]" Name="Persuassion" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Deception]" Name="Deception" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Leadership]" Name="Leadership" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Performance]" Name="Performance" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Seduction]" Name="Seduction" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Style]" Name="Style" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Insight]" Name="Insight" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Constitution]" Name="Constitution" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Endurance]" Name="Endurance" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Immunity]" Name="Immunity" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Craftsmanship]" Name="Craftsmanship" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.FirstAid]" Name="First Aid" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Smithing]" Name="Smithing" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Carpentry]" Name="Carpentry" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Leatherworking]" Name="Leatherworking" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Tailoring]" Name="Tailoring" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Enchantment]" Name="Enchantment" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Alchemy]" Name="Alchemy" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Cooking]" Name="Cooking" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.FineArts]" Name="Fine Arts" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Forgery]" Name="Forgery" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.TrapCrafting]" Name="Trap Crafting" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Resolve]" Name="Resolve" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Courage]" Name="Courage" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Intimidation]" Name="Intimidation" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Determination]" Name="Determination" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Concentration]" Name="Concentration" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Discipline]" Name="Discipline" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Faith]" Name="Faith" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Strength]" Name="Strength" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Athletics]" Name="Athletics" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Physique]" Name="Physique" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Bully]" Name="Bully" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Finesse]" Name="Finesse" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Escape]" Name="Escape/Roll" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Acrobatics]" Name="Acrobatics" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.AnimalHandling]" Name="Animal Handling" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.LandVehicles]" Name="Land Vehicles" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.WaterVehicles]" Name="Water Vehicles" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.SleightOfHand]" Name="Sleight Of Hand" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Stealth]" Name="Stealth" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Archery]" Name="Archery" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Marksmanship]" Name="Marksmanship" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+    <MudListItem DisableGutters=true>
+        <ChildContent>
+            <AttributeView Stat="Character.Stats[CharacterStats.Reflex]" Name="Reflex" Model="Model" />
+        </ChildContent>
+        <NestedList>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Evasion]" Name="Evasion" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.LongBlades]" Name="Long Blades" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.MediumBlades]" Name="Medium Blades" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.ShortBlades]" Name="Short Blades" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.PoleArms]" Name="Pole-Arms" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Crude]" Name="Crude" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Shield]" Name="Shield" Model="Model" />
+            </MudListItem>
+            <MudListItem Dense=true DisableGutters=true>
+                <SkillView Stat="Character.Stats[CharacterStats.Brawl]" Name="Brawl" Model="Model" />
+            </MudListItem>
+        </NestedList>
+    </MudListItem>
+</MudList>
+
+
+
+@code {
+    CharacterCO Character => Model.Character;
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+}

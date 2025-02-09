@@ -1,0 +1,46 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+<MudPaper Elevation="25" Class="pa-4 ma-2 drop-item">
+    <MudStack Row=true Spacing="1">
+        <MudIconButton Size=Size.Small ButtonType=ButtonType.Button Icon="@Icons.Material.Filled.Info" @onclick="()=>OpenArmorDialog(Armor)"></MudIconButton>
+        <MudText Typo="Typo.body1">
+            @Armor.Name <!--Should add a max length calculation here.-->
+        </MudText>
+        <MudSpacer />
+        <MudAvatar Size=Size.Small Rounded=true>@Armor.Bludgeoning<b>B</b></MudAvatar>
+        <MudAvatar Size=Size.Small Rounded=true>@Armor.Piercing<b>P</b></MudAvatar>
+        <MudAvatar Size=Size.Small Rounded=true>@Armor.Slashing<b>S</b></MudAvatar>
+    </MudStack>
+</MudPaper>
+@inject IDialogService Dialog
+@code {
+    CharacterArmorCO _armor;
+    [Parameter]
+    public required CharacterArmorCO Armor 
+    {
+        get => _armor;
+        set
+        {
+            _armor = value;
+            Armor.OnTrackedModification += (x, y) => InvokeAsync(StateHasChanged);
+        }
+    }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterCO Character => Model.Character;
+
+    void OpenArmorDialog(CharacterArmorCO armor)
+    {
+        DialogOptions _dialogOptions = new DialogOptions()
+            {
+                MaxWidth = MaxWidth.Medium,
+                CloseButton = true,
+            };
+        var parameters = new DialogParameters<ArmorDialog>();
+        parameters.Add(x => x.Armor, armor);
+        parameters.Add(x => x.Model, Model);
+        Dialog.Show<ArmorDialog>($"Edit Armor", parameters,_dialogOptions);
+    }
+}

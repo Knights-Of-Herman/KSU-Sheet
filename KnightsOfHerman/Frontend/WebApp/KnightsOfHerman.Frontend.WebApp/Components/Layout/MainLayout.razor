@@ -1,0 +1,35 @@
+﻿@inherits LayoutComponentBase
+@using MudBlazor.Services
+
+
+
+
+<CascadingAuthenticationState>
+    <MudLayout>
+        <NavMenu/>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+        <div id="blazor-error-ui">
+            An unhandled error has occurred.
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div>
+    </MudLayout>
+</CascadingAuthenticationState>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+@code {
+    bool _isDark;
+
+    public bool IsDark{ get => _isDark;
+        set
+        {
+            _isDark = value;
+            StateHasChanged();
+        }
+    }
+}

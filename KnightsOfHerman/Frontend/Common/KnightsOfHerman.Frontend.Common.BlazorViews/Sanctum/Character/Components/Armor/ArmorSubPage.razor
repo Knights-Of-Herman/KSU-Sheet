@@ -1,0 +1,187 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Items
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudDropContainer T="CharacterArmorCO"
+    Items="Model.Character.Armor.Values"
+    ItemDropped="OnArmorDropped"
+    ItemsSelector="ItemSelector"
+    @ref=_dropper
+    Style="height:100%; width:100%;"
+>
+    <ChildContent>
+        <MudStack Style="height:100%; width:100%;" Row=true Spacing="1">
+            <MudPaper Width="40%" Style="direction:rtl;" Height="100%">
+                <MudText Align="Align.Center" Typo="Typo.h5">Equipped Armor</MudText>
+                <MudDivider />
+                <MudList Dense=true DisablePadding=true Style="overflow:auto; height: calc(100% - 40px); direction:rtl;">
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.Head" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.Neck" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.Chest" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.Back" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.Stomach" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.LeftArm" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.LeftHand" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.LeftFoot" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.LeftLeg" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.RightArm" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.RightHand" />
+                    </MudListItem>                    
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.RightFoot" />
+                    </MudListItem>
+                    <MudListItem Class="drop">
+                        <ArmorDropZone Model="Model" Slot="ArmorSlot.RightLeg" />
+                    </MudListItem>
+                </MudList>
+            </MudPaper>
+            <MudSpacer/>
+            <MudPaper Width="55%" Height="100%">
+                <MudStack Spacing="0" Style="height:100%;">
+                    <MudStack Row=true>
+                        <MudSpacer />
+                        <MudText Align="Align.Center" Typo="Typo.h5">Spare Armor</MudText>
+                        <MudSpacer />
+                        <MudTooltip Text="Add New Armor">
+                            <MudButton Disabled=Model.IsReadOnly @onclick=Model.CreateArmor>+</MudButton>
+                        </MudTooltip>
+                    </MudStack>
+                    <MudDivider />
+                    <MudDropZone T="CharacterArmorCO" Identifier="Spare" Class="center-drop" />
+                    </MudStack>
+            </MudPaper>
+        </MudStack>
+    </ChildContent>
+    <ItemRenderer>
+        <ArmorDropItem Armor="context" Model="Model"/>
+    </ItemRenderer>
+</MudDropContainer>
+
+<style>
+    .drop
+    {
+        width:30%;
+        direction:ltr;
+    }
+
+    .center-drop
+    {
+        overflow:auto;
+        height:calc(100% - 40px);
+    }
+
+    .drop-item{
+        width:90%;
+        flex-shrink: 0;
+        flex-grow: 0;
+        flex-basis:auto;
+    }
+</style>
+
+@code {
+    private void OnArmorDropped(MudItemDropInfo<CharacterArmorCO> dropItem)
+    {
+        //Get the Identifier of equipped vs unequipped.
+        if(dropItem.DropzoneIdentifier != "Spare")
+        {
+            Model.Character.EquipedArmor.TryEquipArmor(dropItem.Item);
+            StateHasChanged();
+        } else
+        {
+            Model.Character.EquipedArmor.UnEquipArmor(dropItem.Item);
+            StateHasChanged();
+        }
+    }
+
+    private bool ItemSelector(CharacterArmorCO armor, string dropzone)
+    {
+        if (!armor.Equipped && dropzone == "Spare") return true;
+        
+        //Head
+        if (dropzone == "Head-Heavy" && (armor.Slot & ArmorSlot.Head) == ArmorSlot.Head && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "Head-Medium" && (armor.Slot & ArmorSlot.Head) == ArmorSlot.Head && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "Head-Light" && (armor.Slot & ArmorSlot.Head) == ArmorSlot.Head && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //Neck
+        if (dropzone == "Neck-Heavy" && (armor.Slot & ArmorSlot.Neck) == ArmorSlot.Neck && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "Neck-Medium" && (armor.Slot & ArmorSlot.Neck) == ArmorSlot.Neck && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "Neck-Light" && (armor.Slot & ArmorSlot.Neck) == ArmorSlot.Neck && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //Chest
+        if (dropzone == "Chest-Heavy" && (armor.Slot & ArmorSlot.Chest) == ArmorSlot.Chest && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "Chest-Medium" && (armor.Slot & ArmorSlot.Chest) == ArmorSlot.Chest && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "Chest-Light" && (armor.Slot & ArmorSlot.Chest) == ArmorSlot.Chest && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //Back
+        if (dropzone == "Back-Heavy" && (armor.Slot & ArmorSlot.Back) == ArmorSlot.Back && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "Back-Medium" && (armor.Slot & ArmorSlot.Back) == ArmorSlot.Back && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "Back-Light" && (armor.Slot & ArmorSlot.Back) == ArmorSlot.Back && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //Stomach
+        if (dropzone == "Stomach-Heavy" && (armor.Slot & ArmorSlot.Stomach) == ArmorSlot.Stomach && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "Stomach-Medium" && (armor.Slot & ArmorSlot.Stomach) == ArmorSlot.Stomach && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "Stomach-Light" && (armor.Slot & ArmorSlot.Stomach) == ArmorSlot.Stomach && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //LeftArm
+        if (dropzone == "LeftArm-Heavy" && (armor.Slot & ArmorSlot.LeftArm) == ArmorSlot.LeftArm && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "LeftArm-Medium" && (armor.Slot & ArmorSlot.LeftArm) == ArmorSlot.LeftArm && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "LeftArm-Light" && (armor.Slot & ArmorSlot.LeftArm) == ArmorSlot.LeftArm && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //LeftHand
+        if (dropzone == "LeftHand-Heavy" && (armor.Slot & ArmorSlot.LeftHand) == ArmorSlot.LeftHand && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "LeftHand-Medium" && (armor.Slot & ArmorSlot.LeftHand) == ArmorSlot.LeftHand && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "LeftHand-Light" && (armor.Slot & ArmorSlot.LeftHand) == ArmorSlot.LeftHand && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //LeftLeg
+        if (dropzone == "LeftLeg-Heavy" && (armor.Slot & ArmorSlot.LeftLeg) == ArmorSlot.LeftLeg && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "LeftLeg-Medium" && (armor.Slot & ArmorSlot.LeftLeg) == ArmorSlot.LeftLeg && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "LeftLeg-Light" && (armor.Slot & ArmorSlot.LeftLeg) == ArmorSlot.LeftLeg && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //LeftFoot
+        if (dropzone == "LeftFoot-Heavy" && (armor.Slot & ArmorSlot.LeftFoot) == ArmorSlot.LeftFoot && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "LeftFoot-Medium" && (armor.Slot & ArmorSlot.LeftFoot) == ArmorSlot.LeftFoot && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "LeftFoot-Light" && (armor.Slot & ArmorSlot.LeftFoot) == ArmorSlot.LeftFoot && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //RightArm
+        if (dropzone == "RightArm-Heavy" && (armor.Slot & ArmorSlot.RightArm) == ArmorSlot.RightArm && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "RightArm-Medium" && (armor.Slot & ArmorSlot.RightArm) == ArmorSlot.RightArm && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "RightArm-Light" && (armor.Slot & ArmorSlot.RightArm) == ArmorSlot.RightArm && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //RightHand
+        if (dropzone == "RightHand-Heavy" && (armor.Slot & ArmorSlot.RightHand) == ArmorSlot.RightHand && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "RightHand-Medium" && (armor.Slot & ArmorSlot.RightHand) == ArmorSlot.RightHand && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "RightHand-Light" && (armor.Slot & ArmorSlot.RightHand) == ArmorSlot.RightHand && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //RightLeg
+        if (dropzone == "RightLeg-Heavy" && (armor.Slot & ArmorSlot.RightLeg) == ArmorSlot.RightLeg && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "RightLeg-Medium" && (armor.Slot & ArmorSlot.RightLeg) == ArmorSlot.RightLeg && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "RightLeg-Light" && (armor.Slot & ArmorSlot.RightLeg) == ArmorSlot.RightLeg && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        //RightFoot
+        if (dropzone == "RightFoot-Heavy" && (armor.Slot & ArmorSlot.RightFoot) == ArmorSlot.RightFoot && armor.Layer == ArmorLayer.Heavy && armor.Equipped) return true;
+        if (dropzone == "RightFoot-Medium" && (armor.Slot & ArmorSlot.RightFoot) == ArmorSlot.RightFoot && armor.Layer == ArmorLayer.Medium && armor.Equipped) return true;
+        if (dropzone == "RightFoot-Light" && (armor.Slot & ArmorSlot.RightFoot) == ArmorSlot.RightFoot && armor.Layer == ArmorLayer.Light && armor.Equipped) return true;
+
+        return false;
+    }
+}

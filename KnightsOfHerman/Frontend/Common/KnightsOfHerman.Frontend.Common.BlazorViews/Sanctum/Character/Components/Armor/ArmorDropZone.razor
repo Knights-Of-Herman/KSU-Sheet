@@ -1,0 +1,83 @@
+﻿@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Items
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudPaper Width="100%">
+    <MudDropZone ItemIsDisabled="@((item)=>Model.IsReadOnly)" T="CharacterArmorCO" Identifier="@_slotDrop">
+        <MudExpansionPanel>
+            <TitleContent>
+                <MudStack Row=true>
+                    <MudText Typo="Typo.h5">@_slotName</MudText>
+                    <MudSpacer />
+                    <MudAvatar Rounded=true>@Character.EquipedArmor.ArmorSlots[Slot].Bludgeoning<b>B</b></MudAvatar>
+                    <MudAvatar Rounded=true>@Character.EquipedArmor.ArmorSlots[Slot].Piercing<b>P</b></MudAvatar>
+                    <MudAvatar Rounded=true>@Character.EquipedArmor.ArmorSlots[Slot].Slashing<b>S</b></MudAvatar>
+                </MudStack>
+            </TitleContent>
+            <ChildContent>
+                <MudStack Row=true Class="layer-row">
+                    <MudStack>
+                        <MudSpacer />
+                        <MudText class="layer-type" Typo="Typo.button">Heavy</MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <MudDropZone Style="width:100%;" T="CharacterArmorCO" Identifier="@_slotHeavy" />
+                </MudStack>
+                <MudStack Row=true Class="layer-row">
+                    <MudStack>
+                        <MudSpacer />
+                        <MudText class="layer-type" Typo="Typo.button">Medium</MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <MudDropZone Style="width:100%;" T="CharacterArmorCO" Identifier="@_slotMedium" />
+                </MudStack>
+                <MudStack Row=true Class="layer-row">
+                    <MudStack>
+                        <MudSpacer />
+                        <MudText class="layer-type" Typo="Typo.button">Light</MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <MudDropZone Style="width:100%;" T="CharacterArmorCO" Identifier="@_slotLight" />
+                </MudStack>
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudDropZone>
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterCO Character => Model.Character;
+
+    [Parameter]
+    public required ArmorSlot Slot { get; set; }
+
+    string _slotName;
+
+    string _slotDrop => $"{_slotName}-Drop";
+    string _slotHeavy => $"{_slotName}-Heavy";
+    string _slotMedium => $"{_slotName}-Medium";
+    string _slotLight => $"{_slotName}-Light";
+
+    protected override void OnInitialized()
+    {
+        _slotName = Enum.GetName(typeof(ArmorSlot), Slot);
+        base.OnInitialized();
+    }
+
+}
+
+<style>
+
+    .layer-row {
+        height: 60px;
+        width: 100%;
+    }
+
+    .layer-type {
+        width: 60px;
+    }
+
+</style>

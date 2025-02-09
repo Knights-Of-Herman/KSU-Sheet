@@ -1,0 +1,68 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudPaper Style="@_color" Class="ResourcePaper">
+    <MudTooltip Text="@Name">
+        <MudNumericField Disabled=Model.IsReadOnly MaxLength="3" AdornmentColor="MudBlazor.Color.Surface" Variant="Variant.Text" Class="ResourceText" @bind-Value="Resource.CurrentValue" Label="@MaxString" Style="text-align:center;" DebounceInterval="500" />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" Size="Size.Small" Style="position:absolute; top:0; right:0;" OnClick="OpenResourceDialog" />
+    </MudTooltip>
+</MudPaper>
+
+@inject IDialogService Dialog
+@code {
+    [Parameter]
+    public required CharacterResourceCO Resource { get; set; }
+
+    string MaxString => $"Max {Resource.Total}";
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    [Parameter]
+    public required string Name { get; set; }
+
+    [Parameter]
+    public required string Color { get; set; }
+
+    public string _color => $"background-color: {Color};";
+
+    DialogOptions _dialogOptions = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.Small,
+            CloseButton = true,
+        };
+
+    void OnResourrceDblClick()
+    {
+        OpenResourceDialog();
+    }
+
+    void OpenResourceDialog()
+    {
+        var parameters = new DialogParameters<ResourceDialog>();
+        parameters.Add(x => x.StatName, Name);
+        parameters.Add(x => x.Resource, Resource);
+        parameters.Add(x => x.Model, Model);
+        Dialog.Show<ResourceDialog>($"Edit {Name} Resource", parameters);
+    }
+}
+
+<style>
+    .ResourcePaper{
+        position: relative;
+        width: 80px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+    }
+
+    .ResourceText{
+        color: white !important
+    }
+
+    .ResourceText:focus {
+            color: white !important
+    }
+</style>

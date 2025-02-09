@@ -1,0 +1,35 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudDialog>
+    <DialogContent>
+        <MudNumericField Disabled=Model.IsReadOnly Label="Base" @bind-Value=Stat.Base />
+        <MudNumericField Disabled=Model.IsReadOnly Label="Custom Mod" @bind-Value=Stat.CustomMod />
+        <MudNumericField Disabled=Model.IsReadOnly Label="Override" @bind-Value=Stat.OverrideValue />
+        <MudCheckBox Disabled=Model.IsReadOnly Label="Use Override?" @bind-Value=Stat.DoOverride />
+        <MudTextField Disabled=Model.IsReadOnly Label="Total" ReadOnly=true Value="@Stat.Total" />
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    [Parameter]
+    public required string StatName { get; set; }
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterStatCO _stat;
+    [Parameter]
+    public required CharacterStatCO Stat
+    {
+        get => _stat;
+        set
+        {
+            _stat = value;
+            Stat.OnTrackedModification += (x, y) => InvokeAsync(StateHasChanged);
+        }
+    }
+}

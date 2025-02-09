@@ -1,0 +1,124 @@
+﻿@using KnightsOfHerman.Frontend.Common.BlazorViews.Sanctum.Character.Components.Other
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+@using KnightsOfHerman.Common.Sanctum.Abstract.Character.Stats
+@using KnightsOfHerman.Frontend.Common.BlazorViews.Sanctum.Character.Components.Stats
+<MudStack Row=true Style="height:100%; width:100%; overflow-x:scroll">
+    <MudChipSet Style="height:100%; overflow-y:scroll;">
+        <MudChip Variant="Variant.Outlined" Size="Size.Small">
+            Memory @Character.DerivedStats.UsedMemory/@Character.DerivedStats.Memory
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small">
+            Recovery @Character.DerivedStats.Recovery
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error">
+            Conflict @Character.Bio.Conflict/@Character.DerivedStats.ConflictThreshold 
+            <MudIconButton Size="Size.Small" Variant="Variant.Text" Disabled=Model.IsReadOnly OnClick="IncreaseConflict">+</MudIconButton>
+            <MudIconButton Size="Size.Small" Variant="Variant.Text" Disabled=Model.IsReadOnly OnClick="DecreaseConflict">-</MudIconButton>
+        </MudChip>
+        <MudTooltip Text="Click to edit" Color="Color.Warning">
+            <MudChip Variant="Variant.Outlined" Size="Size.Small" OnClick="EditXP">
+                XP @Character.Bio.UnspentXP/@Character.Bio.TotalXP
+            </MudChip>
+        </MudTooltip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small" Color="Color.Info">
+            Destiny @Character.Bio.Destiny/4
+            <MudIconButton Size="Size.Small" Variant="Variant.Text" Disabled=Model.IsReadOnly OnClick="IncreaseDestiny">+</MudIconButton>
+            <MudIconButton Size="Size.Small" Variant="Variant.Text" Disabled=Model.IsReadOnly OnClick="DecreaseDestiny">-</MudIconButton>
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small">
+            Melee Bonus @Character.DerivedStats.MeleeBonus
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small">
+            Punch 1d6 + @Character.DerivedStats.MeleeBonus
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small">
+            Kick 2d6 + @Character.DerivedStats.MeleeBonus
+        </MudChip>
+        <MudTooltip Text="Click to edit">
+            <MudChip Variant="Variant.Outlined" Color="Color.Success" Size="Size.Small" OnClick=EditSpeed>
+                Speed @Character.Resources[CharacterResources.Speed].Total yards
+            </MudChip>
+        </MudTooltip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small">
+            Swim Speed @Character.DerivedStats.SwimSpeed yards
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small">
+            Running Jump @Character.DerivedStats.RunningJump yards
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small">
+            Standing Jump @Character.DerivedStats.StandingJump yards
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small" Color="Color.Info">
+            Initiative @Character.DerivedStats.Initiative
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small" Color="Color.Info">
+            Carrying Capacity @Character.DerivedStats.UsedCarryingCapacity/@Character.DerivedStats.CarryingCapacity
+        </MudChip>
+        <MudChip Variant="Variant.Outlined" Size="Size.Small" Color="Color.Warning">
+            Hindrance @Character.DerivedStats.Hindrance
+        </MudChip>
+    </MudChipSet>
+    <MudSpacer/>
+    <MudStack Row=true>
+        <ResourceView Resource="Character.Resources[CharacterResources.Health]" Name="Health" Color="#B04040" Model="Model"/>
+        <ResourceView Resource="Character.Resources[CharacterResources.Stamina]" Name="Stamina" Color="#40B040" Model="Model" />
+        <ResourceView Resource="Character.Resources[CharacterResources.Mana]" Name="Mana" Color="#4040B0" Model="Model" />
+    </MudStack>
+</MudStack>
+
+@inject IDialogService Dialog
+@code {
+    CharacterCO Character => Model.Character;
+
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    void EditSpeed()
+    {
+        var parameters = new DialogParameters<ResourceDialog>();
+        parameters.Add(x => x.StatName, "Speed");
+        parameters.Add(x => x.Resource, Character.Resources[CharacterResources.Speed]);
+        parameters.Add(x => x.Model, Model);
+        Dialog.Show<ResourceDialog>($"Edit Speed Resource", parameters);
+    }
+
+    void EditXP()
+    {
+        var parameters = new DialogParameters<XPDialog>();
+        parameters.Add(x => x.Model, Model);
+        Dialog.Show<XPDialog>($"Edit Experience", parameters);
+    }
+
+    void IncreaseDestiny()
+    {
+        if(Character.Bio.Destiny + 1 <= 4)
+        {
+            Character.Bio.Destiny++;
+        }
+    }
+
+    void DecreaseDestiny()
+    {
+        if (Character.Bio.Destiny - 1 >= 0)
+        {
+            Character.Bio.Destiny--;
+        }
+    }
+
+    void IncreaseConflict()
+    {
+        if (Character.Bio.Conflict + 1 <= Character.DerivedStats.ConflictThreshold)
+        {
+            Character.Bio.Conflict++;
+        }
+    }
+
+    void DecreaseConflict()
+    {
+        if (Character.Bio.Conflict - 1 >= 0)
+        {
+            Character.Bio.Conflict--;
+        }
+    }
+}

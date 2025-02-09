@@ -1,0 +1,19 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+
+
+<MudDialog>
+    <DialogContent>
+        <MudText>@Name Has Been Deleted!</MudText>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public required MudDialogInstance Dialog { get; set; }
+
+    [Parameter]
+    public required string Name { get; set; }
+
+}

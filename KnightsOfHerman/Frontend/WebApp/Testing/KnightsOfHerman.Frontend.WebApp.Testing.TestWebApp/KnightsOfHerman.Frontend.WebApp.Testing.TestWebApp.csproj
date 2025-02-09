@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\KnightsOfHerman.Common\KnightsOfHerman.Common.csproj" />
+    <ProjectReference Include="..\..\..\..\Common\Sanctum\KnightsOfHerman.Common.Sanctum\KnightsOfHerman.Common.Sanctum.csproj" />
+    <ProjectReference Include="..\..\..\Common\KnightsOfHerman.Frontend.Common.BlazorViews\KnightsOfHerman.Frontend.Common.BlazorViews.csproj" />
+    <ProjectReference Include="..\..\..\Common\KnightsOfHerman.Frontend.Common.Model\KnightsOfHerman.Frontend.Common.Model.csproj" />
+  </ItemGroup>
+
+</Project>

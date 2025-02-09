@@ -1,0 +1,20 @@
+﻿@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Implementation
+@using KnightsOfHerman.Frontend.Common.Model.Sanctum.Character.Types
+
+<MudContainer Style="height:100%;" MaxWidth="MaxWidth.Medium">
+    <MudPaper Style="height:100%;">
+        <MudText Align=Align.Center Typo="Typo.h4"><b>Character Info</b></MudText>
+        <MudDivider Style="margin-bottom:16px;"/>
+        <MudTextField Disabled=Model.IsReadOnly DebounceInterval="500" Variant=Variant.Outlined Label="Name" @bind-Value=Character.Bio.Name MaxLength="60" Counter="60" />
+        <MudTextField Disabled=Model.IsReadOnly DebounceInterval="500" Variant=Variant.Outlined Label="Race" @bind-Value=Character.Bio.Race MaxLength="60" Counter="60" />
+        <MudTextField Disabled=Model.IsReadOnly DebounceInterval="500" Variant=Variant.Outlined Label="Background" @bind-Value=Character.Bio.Background MaxLength="60" Counter="60" />
+        <MudTextField Disabled=Model.IsReadOnly DebounceInterval="500" Variant=Variant.Outlined Label="Languages" @bind-Value=Character.Bio.Languages MaxLength="450" Lines="3" Counter="450" AutoGrow=true />
+    </MudPaper>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public required CharacterViewModel Model { get; set; }
+
+    CharacterCO Character => Model.Character;
+}

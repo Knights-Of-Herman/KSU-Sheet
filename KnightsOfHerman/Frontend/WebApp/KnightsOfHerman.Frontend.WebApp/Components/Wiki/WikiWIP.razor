@@ -1,0 +1,24 @@
+﻿@page "/wiki"
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Small" Style="margin-top:10px; margin-bottom:10px; height:100%;">
+    <MudPaper>
+        <MudCard>
+            <MudCardContent>
+                <MudText>Wiki App in Progress</MudText>
+                <MudText Typo="Typo.body2">The Knights Of Herman Sanctum TTRPG Campaign Wiki is currently under development.</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" OnClick="GoHome" Color="Color.Primary">Return Home</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudPaper>
+</MudContainer>
+
+@inject NavigationManager Nav
+@code {
+    void GoHome()
+    {
+        Nav.NavigateTo("");
+    }
+}
